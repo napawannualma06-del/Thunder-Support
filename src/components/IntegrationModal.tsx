@@ -94,7 +94,7 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
       try {
         await fetch(gasUrl.trim(), {
           method: 'POST',
-          mode: 'cors',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'testLine',

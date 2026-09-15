@@ -119,7 +119,7 @@ export class StorageService {
       try {
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'cors',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'addTicket',
@@ -175,7 +175,7 @@ export class StorageService {
       try {
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'cors',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'updateTicket',
