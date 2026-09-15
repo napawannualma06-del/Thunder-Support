@@ -306,7 +306,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="ค้นหาเลขสัญญา หรือ ชื่อผู้แจ้ง..."
-          className="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 rounded-2xl text-xs sm:text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+          className="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 rounded-2xl text-base sm:text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
         />
       </div>
 
@@ -544,7 +544,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={technicianNote}
                   onChange={(e) => setTechnicianNote(e.target.value)}
                   placeholder="เช่น ปิด Proxy ให้แล้วครับ ทดสอบเข้าโปรแกรมดูได้เลยครับ"
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base sm:text-xs text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 

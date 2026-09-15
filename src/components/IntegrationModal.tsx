@@ -212,7 +212,7 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
                   value={gasUrl}
                   onChange={(e) => setGasUrl(e.target.value)}
                   placeholder="https://script.google.com/macros/s/AKfycbx.../exec"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base sm:text-xs font-mono text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 <div className="flex items-center justify-between pt-1">
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -268,7 +268,7 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
                   value={lineToken}
                   onChange={(e) => setLineToken(e.target.value)}
                   placeholder="เช่น xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base sm:text-xs font-mono text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 
                 <div className="flex items-center justify-between pt-1">
