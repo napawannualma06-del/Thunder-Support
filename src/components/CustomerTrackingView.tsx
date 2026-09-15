@@ -127,6 +127,32 @@ export const CustomerTrackingView: React.FC<CustomerTrackingViewProps> = ({
                   </span>
                 </div>
 
+                {/* Additional Info */}
+                {(ticket.topic || ticket.mdmProvider || ticket.deviceModel || ticket.realCustomerName) && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {ticket.topic && (
+                      <span className={`px-2 py-1 rounded text-[10px] font-bold ${ticket.topic === 'แจ้งเรื่อง MDM' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300'}`}>
+                        {ticket.topic}
+                      </span>
+                    )}
+                    {ticket.realCustomerName && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium">
+                        ลูกค้า: {ticket.realCustomerName}
+                      </span>
+                    )}
+                    {ticket.mdmProvider && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium">
+                        MDM: {ticket.mdmProvider}
+                      </span>
+                    )}
+                    {ticket.deviceModel && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium">
+                        รุ่น: {ticket.deviceModel}
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 {/* Request title */}
                 <div>
                   <div className="text-sm font-bold text-slate-900 dark:text-white">

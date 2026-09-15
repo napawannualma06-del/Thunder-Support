@@ -354,6 +354,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {ticket.requestType}
                 </div>
 
+                {/* Additional Info Tags */}
+                {(ticket.topic || ticket.mdmProvider || ticket.deviceModel || ticket.realCustomerName) && (
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {ticket.topic && (
+                      <span className={`px-2 py-1 rounded text-[10px] font-bold border ${ticket.topic === 'แจ้งเรื่อง MDM' ? 'bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800' : 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'}`}>
+                        {ticket.topic}
+                      </span>
+                    )}
+                    {ticket.realCustomerName && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium border border-slate-200 dark:border-slate-700">
+                        ลูกค้า: {ticket.realCustomerName}
+                      </span>
+                    )}
+                    {ticket.mdmProvider && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium border border-slate-200 dark:border-slate-700">
+                        MDM: {ticket.mdmProvider}
+                      </span>
+                    )}
+                    {ticket.deviceModel && (
+                      <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium border border-slate-200 dark:border-slate-700">
+                        รุ่น: {ticket.deviceModel}
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 {/* Description if any */}
                 {ticket.description && (
                   <p className="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 rounded-xl p-2.5 mb-2.5 border border-slate-100 dark:border-slate-700">

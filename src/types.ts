@@ -12,6 +12,10 @@ export interface StatusHistoryItem {
 export interface IssueTicket {
   id: string;              // e.g. "TK-001"
   contractNo: string;      // e.g. "9042" or "CT-2024-8891"
+  topic?: string;          // e.g. "แจ้งเรื่อง MDM" or "แจ้งเรื่อง เว็บ Thunder Cloud"
+  mdmProvider?: string;    // "PJ" หรือ "Atom"
+  deviceModel?: string;    // รุ่นโทรศัพท์ เช่น iphone 17 promx
+  realCustomerName?: string; // ชื่อ-นามสกุล ลูกค้า
   customerName: string;    // ชื่อพนักงาน/ผู้แจ้ง
   phone?: string;          // เบอร์โทรหรือ LINE
   requestType: string;     // เช่น "ปิด Proxy", "เปิดใช้งาน", "อื่นๆ"

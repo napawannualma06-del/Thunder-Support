@@ -24,7 +24,11 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
   isGasConnected,
 }) => {
   // ดึงชื่อผู้แจ้งที่เคยกรอกไว้ในเครื่องเพื่อไม่ต้องพิมพ์ซ้ำ
+  const [topic, setTopic] = useState<'แจ้งเรื่อง MDM' | 'แจ้งเรื่อง เว็บ Thunder Cloud'>('แจ้งเรื่อง MDM');
   const [contractNo, setContractNo] = useState('');
+  const [mdmProvider, setMdmProvider] = useState<'PJ' | 'Atom' | ''>('');
+  const [deviceModel, setDeviceModel] = useState('');
+  const [realCustomerName, setRealCustomerName] = useState('');
   const [requestType, setRequestType] = useState('ปิดพร็อกซี่');
   const [customerName, setCustomerName] = useState(() => localStorage.getItem('last_user_name') || '');
   const [description, setDescription] = useState('');
@@ -81,7 +85,11 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
     try {
       setIsSubmitting(true);
       const newTicket = await onSubmit({
+        topic: topic,
         contractNo: contractNo.trim().toUpperCase(),
+        mdmProvider: topic === 'แจ้งเรื่อง MDM' ? (mdmProvider || undefined) : undefined,
+        deviceModel: deviceModel.trim() || undefined,
+        realCustomerName: realCustomerName.trim() || undefined,
         requestType: finalRequestType,
         customerName: customerName.trim(),
         description: finalDescription,
@@ -98,7 +106,11 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
   };
 
   const handleReset = () => {
+    setTopic('แจ้งเรื่อง MDM');
     setContractNo('');
+    setMdmProvider('');
+    setDeviceModel('');
+    setRealCustomerName('');
     setRequestType('ปิดพร็อกซี่');
     setDescription('');
     setAttachmentUrl('');
@@ -182,6 +194,45 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
 
       <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800/90 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xs p-5 sm:p-6 space-y-4 transition-colors">
         
+        {/* หัวข้อการแจ้ง */}
+        <div>
+          <label className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-2">
+            หัวข้อการแจ้ง
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <label className={`cursor-pointer rounded-xl border p-3 flex items-start gap-3 transition-colors ${topic === 'แจ้งเรื่อง MDM' ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-500 dark:border-amber-500' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <div className="flex h-5 items-center">
+                <input
+                  type="radio"
+                  name="topic"
+                  value="แจ้งเรื่อง MDM"
+                  checked={topic === 'แจ้งเรื่อง MDM'}
+                  onChange={() => setTopic('แจ้งเรื่อง MDM')}
+                  className="h-4 w-4 text-amber-500 focus:ring-amber-500 border-slate-300 dark:border-slate-700 dark:bg-slate-800"
+                />
+              </div>
+              <div className="flex flex-col text-sm">
+                <span className={`font-semibold ${topic === 'แจ้งเรื่อง MDM' ? 'text-amber-700 dark:text-amber-400' : 'text-slate-700 dark:text-slate-300'}`}>แจ้งเรื่อง MDM</span>
+              </div>
+            </label>
+            <label className={`cursor-pointer rounded-xl border p-3 flex items-start gap-3 transition-colors ${topic === 'แจ้งเรื่อง เว็บ Thunder Cloud' ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-500 dark:border-indigo-500' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <div className="flex h-5 items-center">
+                <input
+                  type="radio"
+                  name="topic"
+                  value="แจ้งเรื่อง เว็บ Thunder Cloud"
+                  checked={topic === 'แจ้งเรื่อง เว็บ Thunder Cloud'}
+                  onChange={() => setTopic('แจ้งเรื่อง เว็บ Thunder Cloud')}
+                  className="h-4 w-4 text-indigo-500 focus:ring-indigo-500 border-slate-300 dark:border-slate-700 dark:bg-slate-800"
+                />
+              </div>
+              <div className="flex flex-col text-sm">
+                <span className={`font-semibold ${topic === 'แจ้งเรื่อง เว็บ Thunder Cloud' ? 'text-indigo-700 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300'}`}>แจ้งเรื่อง เว็บ Thunder Cloud</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
         {/* 1. เลขที่สัญญา (เด่น ชัด กรอกง่าย) */}
         <div>
           <label htmlFor="contractNo" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5">
@@ -196,6 +247,69 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             onChange={(e) => setContractNo(e.target.value)}
             placeholder="พิมพ์เลขสัญญา"
             className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono text-base sm:text-lg font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal placeholder:text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition uppercase tracking-wider"
+          />
+        </div>
+
+        {/* 1.1 ชื่อลูกค้า */}
+        <div>
+          <label htmlFor="realCustomerName" className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+            ชื่อลูกค้า (ชื่อจริง นามสกุล)
+          </label>
+          <input
+            id="realCustomerName"
+            type="text"
+            value={realCustomerName}
+            onChange={(e) => setRealCustomerName(e.target.value)}
+            placeholder="เช่น สมชาย ใจดี"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-base sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500"
+          />
+        </div>
+
+        {/* 1.2 MDM ค่ายไหน (แสดงเฉพาะเมื่อเลือกแจ้งเรื่อง MDM) */}
+        {topic === 'แจ้งเรื่อง MDM' && (
+          <div>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              ค่าย MDM
+            </label>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="mdmProvider"
+                  value="PJ"
+                  checked={mdmProvider === 'PJ'}
+                  onChange={(e) => setMdmProvider(e.target.value as 'PJ')}
+                  className="w-4 h-4 text-amber-500 bg-slate-50 border-slate-300 focus:ring-amber-500 dark:bg-slate-900 dark:border-slate-700"
+                />
+                <span className="text-sm text-slate-800 dark:text-slate-200">PJ</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="mdmProvider"
+                  value="Atom"
+                checked={mdmProvider === 'Atom'}
+                onChange={(e) => setMdmProvider(e.target.value as 'Atom')}
+                className="w-4 h-4 text-amber-500 bg-slate-50 border-slate-300 focus:ring-amber-500 dark:bg-slate-900 dark:border-slate-700"
+              />
+              <span className="text-sm text-slate-800 dark:text-slate-200">Atom</span>
+            </label>
+          </div>
+        </div>
+        )}
+
+        {/* 1.3 รุ่น iPhone */}
+        <div>
+          <label htmlFor="deviceModel" className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+            รุ่นโทรศัพท์ (iPhone)
+          </label>
+          <input
+            id="deviceModel"
+            type="text"
+            value={deviceModel}
+            onChange={(e) => setDeviceModel(e.target.value)}
+            placeholder="เช่น iphone 17 promx"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-base sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500"
           />
         </div>
 

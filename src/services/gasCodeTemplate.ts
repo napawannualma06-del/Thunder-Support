@@ -21,6 +21,10 @@ function getOrCreateSheet() {
     sheet.appendRow([
       "รหัสเคส",
       "เลขที่สัญญา",
+      "หัวข้อการแจ้ง",
+      "ค่าย MDM",
+      "รุ่นโทรศัพท์",
+      "ชื่อลูกค้า",
       "รายการที่แจ้ง",
       "ผู้แจ้ง",
       "เบอร์โทร/LINE",
@@ -32,7 +36,7 @@ function getOrCreateSheet() {
       "วันที่แจ้ง",
       "วันที่อัปเดต"
     ]);
-    sheet.getRange("A1:L1").setBackground("#0f172a").setFontColor("#ffffff").setFontWeight("bold");
+    sheet.getRange("A1:P1").setBackground("#0f172a").setFontColor("#ffffff").setFontWeight("bold");
     sheet.setFrozenRows(1);
   }
   return sheet;
@@ -53,19 +57,25 @@ function doGet(e) {
       const row = data[i];
       if (!row[0]) continue;
 
+      // รองรับทั้งแบบเก่าและใหม่ (ถ้า column 2 เป็น requestType คือแบบเก่า, ถ้าเป็น mdmProvider คือแบบใหม่)
+      // เช็คว่า row length น่าจะบอกได้ แต่เพื่อความชัวร์ ใช้แบบอ่านตายตัวตามคอลัมน์ใหม่
       tickets.push({
         id: String(row[0]),
         contractNo: String(row[1]),
-        requestType: String(row[2] || "ปิด Proxy"),
-        customerName: String(row[3] || ""),
-        phone: String(row[4] || ""),
-        description: String(row[5] || ""),
-        attachmentUrl: String(row[6] || ""),
-        status: String(row[7] || "pending"),
-        technicianName: String(row[8] || "ช่างเทคนิค"),
-        technicianNote: String(row[9] || ""),
-        createdAt: row[10] instanceof Date ? row[10].toISOString() : String(row[10]),
-        updatedAt: row[11] instanceof Date ? row[11].toISOString() : String(row[11]),
+        topic: String(row[2] || ""),
+        mdmProvider: String(row[3] || ""),
+        deviceModel: String(row[4] || ""),
+        realCustomerName: String(row[5] || ""),
+        requestType: String(row[6] || "ปิด Proxy"),
+        customerName: String(row[7] || ""),
+        phone: String(row[8] || ""),
+        description: String(row[9] || ""),
+        attachmentUrl: String(row[10] || ""),
+        status: String(row[11] || "pending"),
+        technicianName: String(row[12] || "ช่างเทคนิค"),
+        technicianNote: String(row[13] || ""),
+        createdAt: row[14] instanceof Date ? row[14].toISOString() : String(row[14]),
+        updatedAt: row[15] instanceof Date ? row[15].toISOString() : String(row[15]),
         statusHistory: []
       });
     }
@@ -106,6 +116,10 @@ function doPost(e) {
       sheet.appendRow([
         ticket.id,
         ticket.contractNo,
+        ticket.topic || "",
+        ticket.mdmProvider || "",
+        ticket.deviceModel || "",
+        ticket.realCustomerName || "",
         ticket.requestType,
         ticket.customerName,
         ticket.phone || "",
@@ -121,7 +135,9 @@ function doPost(e) {
       // ส่ง LINE Notify แจ้งเตือนช่างทันที
       if (lineToken) {
         let msg = "\\n🔔 มีรายการแจ้งใหม่!" +
+                  (ticket.topic ? "\\n📌 หัวข้อ: " + ticket.topic : "") +
                   "\\n📋 เลขสัญญา: " + ticket.contractNo +
+                  (ticket.realCustomerName ? "\\n👤 ลูกค้า: " + ticket.realCustomerName : "") +
                   "\\n⚡ รายการ: " + ticket.requestType +
                   "\\n👤 ผู้แจ้ง: " + ticket.customerName + (ticket.phone ? " (" + ticket.phone + ")" : "") +
                   "\\n📝 รายละเอียด: " + (ticket.description || "-") +
@@ -153,10 +169,10 @@ function doPost(e) {
       const now = new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
       const contractNo = data[rowIndex - 1][1];
 
-      if (updatedData.status !== undefined) sheet.getRange(rowIndex, 8).setValue(updatedData.status);
-      if (updatedData.technicianName !== undefined) sheet.getRange(rowIndex, 9).setValue(updatedData.technicianName);
-      if (updatedData.technicianNote !== undefined) sheet.getRange(rowIndex, 10).setValue(updatedData.technicianNote);
-      sheet.getRange(rowIndex, 12).setValue(now);
+      if (updatedData.status !== undefined) sheet.getRange(rowIndex, 12).setValue(updatedData.status);
+      if (updatedData.technicianName !== undefined) sheet.getRange(rowIndex, 13).setValue(updatedData.technicianName);
+      if (updatedData.technicianNote !== undefined) sheet.getRange(rowIndex, 14).setValue(updatedData.technicianNote);
+      sheet.getRange(rowIndex, 16).setValue(now);
 
       // ส่ง LINE Notify เมื่อช่างอัปเดตงาน
       if (lineToken && payload.notifyLine) {
