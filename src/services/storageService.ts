@@ -64,14 +64,7 @@ export class StorageService {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
-          // หากใน storage เคยบันทึกตัวอย่างไว้ (TK-101 ถึง TK-106) ให้กรองออก เพื่อความสะอาด
-          const userOnly = parsed.filter(
-            (t) => !['TK-101', 'TK-102', 'TK-103', 'TK-104', 'TK-105', 'TK-106'].includes(t.id)
-          );
-          if (userOnly.length !== parsed.length) {
-            this.saveLocalTickets(userOnly);
-          }
-          return userOnly;
+          return parsed;
         }
       }
     } catch (e) {
@@ -126,8 +119,8 @@ export class StorageService {
       try {
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'addTicket',
             ticket: newTicket,
@@ -182,8 +175,8 @@ export class StorageService {
       try {
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'updateTicket',
             ticketId,

@@ -94,8 +94,8 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
       try {
         await fetch(gasUrl.trim(), {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             action: 'testLine',
             lineNotifyToken: lineToken.trim(),
@@ -373,7 +373,7 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
                   <p>2. ตรงรูปเฟืองเลือก <strong>เว็บแอปพลิเคชัน (Web app)</strong></p>
                   <p>3. กำหนดค่า: 
                     <br />• ดำเนินการในฐานะ (Execute as): <strong>ฉัน (Me)</strong>
-                    <br />• ใครมีสิทธิ์เข้าถึง (Who has access): <strong>ทุกคน (Anyone)</strong> *(สำคัญมาก!)*
+                    <br />• ใครมีสิทธิ์เข้าถึง (Who has access): <strong className="text-rose-600 dark:text-rose-400">ทุกคน (Anyone)</strong> *(สำคัญมาก! หากเลือกผิดแอปจะบันทึกข้อมูลลงชีทไม่ได้)*
                   </p>
                   <p>4. คลิก "ทำให้ใช้งานได้" และกดยืนยันสิทธิ์บัญชี Google</p>
                   <p>5. คัดลอก <strong>URL เว็บแอปพลิเคชัน (Web app URL)</strong> มาวางในช่อง URL ในแท็บ "การเชื่อมต่อ & URL" เป็นอันเสร็จสิ้น!</p>

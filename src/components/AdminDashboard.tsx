@@ -91,7 +91,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   ) => {
     try {
       setIsUpdating(true);
-      await onUpdateTicket(
+      const updated = await onUpdateTicket(
         ticket.id,
         {
           status: newStatus,
@@ -101,8 +101,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         technicianName,
         notifyLine
       );
-      setQuickSuccessMsg(`อัปเดตสัญญา ${ticket.contractNo}: ${STATUS_CONFIG[newStatus].label} เรียบร้อยแล้ว`);
-      setTimeout(() => setQuickSuccessMsg(''), 3000);
+      if (updated) {
+        setQuickSuccessMsg(`อัปเดตสัญญา ${ticket.contractNo}: ${STATUS_CONFIG[newStatus].label} เรียบร้อยแล้ว`);
+        setTimeout(() => setQuickSuccessMsg(''), 3000);
+      }
     } catch (e: any) {
       alert('เกิดข้อผิดพลาด: ' + e.message);
     } finally {
