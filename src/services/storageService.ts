@@ -5,7 +5,7 @@ const STORAGE_KEY_TICKETS = 'contract_issue_tickets_simple_v2';
 const STORAGE_KEY_SETTINGS = 'contract_issue_settings_simple_v2';
 
 export const DEFAULT_SETTINGS: IntegrationSettings = {
-  gasWebAppUrl: import.meta.env.VITE_GAS_URL || '',
+  gasWebAppUrl: import.meta.env.VITE_GAS_URL || 'https://script.google.com/macros/s/AKfycbxRLbfy-wwJH17Ba0lR8mZoUsHtUfnRS3bkOqfwkumn9kg-v9SIWj0C-mYqcA9UvNYp/exec',
   lineNotifyToken: import.meta.env.VITE_LINE_TOKEN || '',
   enableLineNotify: true,
   sheetName: 'Tickets',
@@ -24,9 +24,12 @@ export class StorageService {
       console.error('Failed to load settings:', e);
     }
     
-    // บังคับใช้ค่าจาก .env เสมอถ้ามีการตั้งค่าไว้ เพื่อให้พนักงานทุกคนได้ตั้งค่าเดียวกัน
-    if (import.meta.env.VITE_GAS_URL) {
-      settings.gasWebAppUrl = import.meta.env.VITE_GAS_URL;
+    // บังคับใช้ค่าคงที่ หรือจาก .env เพื่อให้พนักงานทุกคนได้ตั้งค่าเดียวกัน
+    const hardcodedGasUrl = "https://script.google.com/macros/s/AKfycbxRLbfy-wwJH17Ba0lR8mZoUsHtUfnRS3bkOqfwkumn9kg-v9SIWj0C-mYqcA9UvNYp/exec";
+    const finalGasUrl = import.meta.env.VITE_GAS_URL || hardcodedGasUrl;
+    
+    if (finalGasUrl) {
+      settings.gasWebAppUrl = finalGasUrl;
       settings.useGoogleSheetsSync = true;
     }
     if (import.meta.env.VITE_LINE_TOKEN) {
