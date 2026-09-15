@@ -100,5 +100,59 @@ export const INITIAL_SAMPLE_TICKETS: IssueTicket[] = [
         updatedBy: 'ฝ่ายเทคนิค (พี่เกม)'
       }
     ]
+  },
+  {
+    id: 'TK-105',
+    contractNo: '5521',
+    customerName: 'คุณกอล์ฟ (สาขาเซ็นทรัล)',
+    phone: '086-332-9988',
+    requestType: 'เปิด Find My Phone',
+    description: 'สัญญา 5521 ลูกค้าผ่อนชำระครบกำหนดแล้วครับ รบกวนเปิด / ปลดล็อค Find My Phone ให้ลูกค้าด้วยครับ ขอบคุณครับ',
+    status: 'resolved',
+    technicianName: 'ฝ่ายเทคนิค (พี่เกม)',
+    technicianNote: 'เปิด Find My Phone ในระบบเรียบร้อยแล้วครับ ลูกค้าสามารถเข้า iCloud ใช้งานได้ตามปกติครับ',
+    createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    updatedAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+    statusHistory: [
+      {
+        status: 'pending',
+        timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+        note: 'พนักงานส่งคำขอแจ้งงาน',
+        updatedBy: 'คุณกอล์ฟ'
+      },
+      {
+        status: 'resolved',
+        timestamp: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+        note: 'เปิด Find My Phone ในระบบเรียบร้อยแล้วครับ ลูกค้าสามารถเข้า iCloud ใช้งานได้ตามปกติครับ',
+        updatedBy: 'ฝ่ายเทคนิค (พี่เกม)'
+      }
+    ]
+  },
+  {
+    id: 'TK-106',
+    contractNo: '6634',
+    customerName: 'คุณมิ้นต์ (ฝ่ายสินเชื่อ)',
+    phone: '091-778-5544',
+    requestType: 'กรอกเลข SN ผิด',
+    description: 'สัญญา 6634 ตอนทำรายการบันทึก Serial Number ผิดตัวท้าย จากเลข 8 เป็นตัวอักษร B รบกวนช่วยแก้ไขในระบบให้ทีค่ะ',
+    status: 'in_progress',
+    technicianName: 'ฝ่ายเทคนิค (พี่เกม)',
+    technicianNote: 'รับเรื่องแล้วครับ กำลังเปิดระบบฐานข้อมูลเพื่อแก้ไขเลข SN ให้ถูกต้องครับ',
+    createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+    updatedAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    statusHistory: [
+      {
+        status: 'pending',
+        timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+        note: 'พนักงานส่งคำขอแจ้งงาน',
+        updatedBy: 'คุณมิ้นต์'
+      },
+      {
+        status: 'in_progress',
+        timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+        note: 'รับเรื่องแล้วครับ กำลังเปิดระบบฐานข้อมูลเพื่อแก้ไขเลข SN ให้ถูกต้องครับ',
+        updatedBy: 'ฝ่ายเทคนิค (พี่เกม)'
+      }
+    ]
   }
 ];

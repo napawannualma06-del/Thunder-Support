@@ -1,6 +1,6 @@
 {
-  "name": "แจ้งปัญหา",
-  "description": "ระบบแจ้งปัญหาตามเลขสัญญา ปิด Proxy พร้อมคิวงานฝ่ายเทคนิค (พี่เกม) มีระบบรหัสผ่าน และเชื่อมต่อ Google Sheets & LINE Notify",
+  "name": "Thunder Support",
+  "description": "ระบบแจ้งปัญหาตามเลขสัญญา ปิด Proxy, เปิด Find My Phone, แก้ไขเลข SN ฝ่ายเทคนิค (พี่เกม) ซิงค์ Google Sheets & LINE Notify",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

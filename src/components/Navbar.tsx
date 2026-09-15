@@ -4,13 +4,11 @@ import {
   Search, 
   Wrench, 
   Settings, 
-  CheckCircle2,
-  Clock,
-  Sparkles,
-  Lock,
-  Sun,
-  Moon,
-  Share2
+  Lock, 
+  Sun, 
+  Moon, 
+  Share2,
+  Zap
 } from 'lucide-react';
 import { IntegrationSettings } from '../types';
 
@@ -33,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   openSettings,
   settings,
   pendingCount,
-  inProgressCount,
+  inProgressCount: _inProgressCount,
   isAdminAuthenticated = false,
   theme,
   onToggleTheme,
@@ -43,43 +41,47 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 transition-colors">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-14 sm:h-16">
+      {/* Top Header: Sleek, high-contrast, modern floating-glass aesthetic */}
+      <header id="main-header" className="sticky top-0 z-40 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
             
-            {/* Logo & Quick identity */}
+            {/* Brand Logo & Title */}
             <div 
-              className="flex items-center gap-2.5 cursor-pointer select-none"
+              id="brand-logo-button"
+              className="flex items-center gap-3 cursor-pointer group select-none"
               onClick={() => setActiveTab('report')}
             >
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-indigo-200 dark:shadow-none">
-                <Wrench className="w-5 h-5" />
+              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-pink-400 text-white shadow-sm shadow-pink-500/25 group-hover:scale-105 transition-transform">
+                <Zap className="w-5 h-5 fill-current text-white" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-950" title="ออนไลน์พร้อมรับเรื่อง" />
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-base text-slate-900 dark:text-white tracking-tight">
-                    แจ้งปัญหา
+
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-base text-slate-900 dark:text-white tracking-tight">
+                    Thunder Support
                   </span>
-                  <span className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 rounded-full border border-indigo-200 dark:border-indigo-800">
-                    ปิด Proxy / ไอที
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-pink-500/10 text-pink-700 dark:text-pink-300 border border-pink-500/20">
+                    ฝ่ายเทคนิค
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">
-                  ระบุเลขสัญญา ➔ แจ้งฝ่ายเทคนิค (พี่เกม) ➔ อัปเดตงานทันที
-                </p>
+                <span className="text-[12px] text-slate-500 dark:text-slate-400 hidden sm:inline-block">
+                  แจ้งตามเลขสัญญา ➔ พี่เกมดำเนินการทันที
+                </span>
               </div>
             </div>
 
-            {/* Desktop Navigation Tabs */}
-            <nav className="hidden md:flex items-center gap-1.5">
+            {/* Desktop Navigation Segmented Control */}
+            <nav id="desktop-nav" className="hidden md:flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80">
               <button
+                id="nav-tab-report"
                 type="button"
                 onClick={() => setActiveTab('report')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition ${
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeTab === 'report'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 <Send className="w-3.5 h-3.5" />
@@ -87,12 +89,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
 
               <button
+                id="nav-tab-track"
                 type="button"
                 onClick={() => setActiveTab('track')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition ${
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeTab === 'track'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 <Search className="w-3.5 h-3.5" />
@@ -100,126 +103,139 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
 
               <button
+                id="nav-tab-admin"
                 type="button"
                 onClick={() => setActiveTab('admin')}
-                className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition ${
+                className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeTab === 'admin'
-                    ? 'bg-slate-900 dark:bg-indigo-700 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    ? 'bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 shadow-sm font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
-                title={isAdminAuthenticated ? 'คิวงานฝ่ายเทคนิค' : 'สำหรับฝ่ายเทคนิค (ต้องใส่รหัส)'}
+                title={isAdminAuthenticated ? 'คิวงานฝ่ายเทคนิค' : 'เฉพาะพี่เกม (ต้องใส่รหัส)'}
               >
                 {isAdminAuthenticated ? (
-                  <Wrench className="w-3.5 h-3.5 text-indigo-400 dark:text-indigo-200" />
+                  <Wrench className="w-3.5 h-3.5" />
                 ) : (
                   <Lock className="w-3.5 h-3.5 text-amber-500" />
                 )}
-                <span>คิวงาน (พี่เกม)</span>
+                <span>คิวงาน</span>
                 {pendingCount > 0 && (
-                  <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-950">
+                  <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
+                    activeTab === 'admin'
+                      ? 'bg-white/20 dark:bg-slate-950/20 text-inherit'
+                      : 'bg-amber-500 text-white'
+                  }`}>
                     {pendingCount}
                   </span>
                 )}
               </button>
             </nav>
 
-            {/* Quick Action Buttons (Share, Theme, Settings) */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              
-              {/* Share Link for Employees */}
+            {/* Action Tools Right Side */}
+            <div id="navbar-actions" className="flex items-center gap-2">
+              {/* Share button */}
               <button
+                id="btn-share-link"
                 type="button"
                 onClick={onOpenShareModal}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 transition"
-                title="ส่งลิงก์ให้พนักงาน"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 transition"
+                title="แชร์ลิงก์ให้พนักงาน"
               >
-                <Share2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">ส่งลิงก์ให้พนักงาน</span>
+                <Share2 className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                <span className="hidden sm:inline">ส่งต่อให้พนักงาน</span>
               </button>
 
               {/* Theme Toggle Button */}
               <button
+                id="btn-toggle-theme"
                 type="button"
                 onClick={onToggleTheme}
                 aria-label={theme === 'dark' ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด'}
-                className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800 transition"
                 title={theme === 'dark' ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด'}
               >
                 {theme === 'dark' ? (
-                  <Sun className="w-4 h-4 text-amber-400 animate-in spin-in-90 duration-200" />
+                  <Sun className="w-4 h-4 text-amber-400" />
                 ) : (
-                  <Moon className="w-4 h-4 text-slate-600 animate-in spin-in-90 duration-200" />
+                  <Moon className="w-4 h-4 text-slate-600" />
                 )}
               </button>
 
-              {/* Integration Setting Button */}
-              <button
-                type="button"
-                onClick={openSettings}
-                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-medium border transition ${
-                  isGASConnected
-                    ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
-                }`}
-              >
-                <span className={`w-2 h-2 rounded-full ${isGASConnected ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
-                <Settings className="w-3.5 h-3.5" />
-                <span className="hidden lg:inline">
-                  {isGASConnected ? 'Sheets & LINE' : 'ตั้งค่าชีท'}
-                </span>
-              </button>
+              {/* Integration Settings (แสดงเฉพาะเมื่อพี่เกมเข้าสู่ระบบแล้วเท่านั้น) */}
+              {isAdminAuthenticated && (
+                <button
+                  id="btn-open-settings"
+                  type="button"
+                  onClick={openSettings}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition ${
+                    isGASConnected
+                      ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/20'
+                      : 'text-slate-600 dark:text-slate-300 bg-transparent border-dashed border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  }`}
+                  title="ตั้งค่าเชื่อมต่อ Google Sheets & LINE Notify (สำหรับพี่เกม)"
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full ${isGASConnected ? 'bg-emerald-500' : 'bg-slate-400'}`} />
+                  <Settings className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                  <span className="text-[11px]">
+                    {isGASConnected ? 'ชีทเชื่อมต่อแล้ว' : 'ตั้งค่าชีท'}
+                  </span>
+                </button>
+              )}
             </div>
 
           </div>
         </div>
       </header>
 
-      {/* Mobile & Tablet Bottom Navigation Bar (Very clean and comfortable for touch) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center justify-around shadow-lg transition-colors">
+      {/* Mobile Bottom Bar for touch devices */}
+      <nav id="mobile-bottom-nav" className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 px-6 py-2 flex items-center justify-around shadow-lg transition-colors">
         <button
+          id="mobile-tab-report"
           type="button"
           onClick={() => setActiveTab('report')}
-          className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition ${
-            activeTab === 'report' ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+          className={`flex flex-col items-center gap-1 py-1 px-3 transition ${
+            activeTab === 'report' ? 'text-amber-500 font-semibold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
-          <Send className="w-5 h-5" />
+          <Send className="w-4 h-4" />
           <span className="text-[11px]">แจ้งปัญหา</span>
         </button>
 
         <button
+          id="mobile-tab-track"
           type="button"
           onClick={() => setActiveTab('track')}
-          className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition ${
-            activeTab === 'track' ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+          className={`flex flex-col items-center gap-1 py-1 px-3 transition ${
+            activeTab === 'track' ? 'text-amber-500 font-semibold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
-          <Search className="w-5 h-5" />
+          <Search className="w-4 h-4" />
           <span className="text-[11px]">เช็คสถานะ</span>
         </button>
 
         <button
+          id="mobile-tab-admin"
           type="button"
           onClick={() => setActiveTab('admin')}
-          className={`relative flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition ${
-            activeTab === 'admin' ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400'
+          className={`relative flex flex-col items-center gap-1 py-1 px-3 transition ${
+            activeTab === 'admin' ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           <div className="relative">
             {isAdminAuthenticated ? (
-              <Wrench className="w-5 h-5" />
+              <Wrench className="w-4 h-4" />
             ) : (
-              <Lock className="w-5 h-5 text-amber-500" />
+              <Lock className="w-4 h-4 text-amber-500" />
             )}
             {pendingCount > 0 && (
-              <span className="absolute -top-1 -right-2 w-4 h-4 rounded-full bg-amber-500 text-slate-950 text-[9px] font-extrabold flex items-center justify-center">
+              <span className="absolute -top-1 -right-2 w-3.5 h-3.5 rounded-full bg-amber-500 text-white text-[9px] font-bold flex items-center justify-center">
                 {pendingCount}
               </span>
             )}
           </div>
-          <span className="text-[11px]">คิวงาน (พี่เกม)</span>
+          <span className="text-[11px]">คิวงาน</span>
         </button>
-      </div>
+      </nav>
     </>
   );
 };

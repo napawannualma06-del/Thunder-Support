@@ -7,7 +7,8 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronUp,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Zap
 } from 'lucide-react';
 import { IssueTicket } from '../types';
 
@@ -140,7 +141,7 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             <button
               type="button"
               onClick={() => onViewTicket(createdTicket.id)}
-              className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm transition flex items-center justify-center gap-2 shadow-sm"
+              className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-semibold text-sm transition flex items-center justify-center gap-2 shadow-sm"
             >
               <ExternalLink className="w-4 h-4" />
               <span>ดูสถานะคิวงานนี้</span>
@@ -163,10 +164,11 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
       
       {/* Friendly Header */}
       <div className="mb-4 text-center">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-          แจ้งปัญหา
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2">
+          <Zap className="w-6 h-6 text-pink-500 fill-pink-500" />
+          <span>Thunder Support</span>
         </h1>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           กรอกเลขสัญญา และสิ่งที่ต้องการให้ทำ ฝ่ายเทคนิค (พี่เกม) จะได้รับเรื่องทันที
         </p>
       </div>
@@ -184,7 +186,7 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
         <div>
           <label htmlFor="contractNo" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5 flex items-center justify-between">
             <span>เลขที่สัญญา (Contract No.) <span className="text-rose-500">*</span></span>
-            <span className="text-[11px] text-slate-400 dark:text-slate-500 font-normal">เช่น 9042 หรือ CT-8891</span>
+            <span className="text-[11px] text-slate-400 dark:text-slate-500 font-normal">เช่น 9042, 5521 หรือ 6634</span>
           </label>
           <input
             id="contractNo"
@@ -194,15 +196,15 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             value={contractNo}
             onChange={(e) => setContractNo(e.target.value)}
             placeholder="พิมพ์เลขสัญญา เช่น 9042"
-            className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono text-lg font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal placeholder:text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition uppercase tracking-wider"
+            className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono text-lg font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal placeholder:text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition uppercase tracking-wider"
           />
         </div>
 
-        {/* 2. สิ่งที่ต้องการให้ทำ (แบบกรอก พร้อมตัวอย่าง ปิดพร็อกซี่) */}
+        {/* 2. สิ่งที่ต้องการให้ทำ (แบบกรอก พร้อมตัวอย่าง ปิดพร็อกซี่, เปิด Find My Phone, กรอกเลข SN ผิด) */}
         <div>
           <label htmlFor="requestType" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5 flex items-center justify-between">
             <span>สิ่งที่ต้องการให้ทำ <span className="text-rose-500">*</span></span>
-            <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-normal">ตัวอย่าง: ปิดพร็อกซี่</span>
+            <span className="text-[11px] text-amber-600 dark:text-amber-400 font-normal">เลือกหรือพิมพ์เองได้</span>
           </label>
           <input
             id="requestType"
@@ -210,17 +212,27 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             required
             value={requestType}
             onChange={(e) => setRequestType(e.target.value)}
-            placeholder="ปิดพร็อกซี่"
-            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white text-sm font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            placeholder="เช่น ปิดพร็อกซี่, เปิด Find My Phone"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white text-sm font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
           />
-          <div className="flex items-center gap-1.5 mt-1.5 flex-wrap text-[11px] text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-1.5 mt-2 flex-wrap text-[11px] text-slate-500 dark:text-slate-400">
             <span>ตัวอย่าง:</span>
-            {['ปิดพร็อกซี่', 'เปิด Proxy', 'ปลดล็อค / รีเซ็ตสิทธิ์'].map((item) => (
+            {[
+              'ปิดพร็อกซี่',
+              'เปิด Find My Phone',
+              'กรอกเลข SN ผิด',
+              'เปิด Proxy',
+              'ปลดล็อค / รีเซ็ตสิทธิ์'
+            ].map((item) => (
               <button
                 key={item}
                 type="button"
                 onClick={() => setRequestType(item)}
-                className="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 transition"
+                className={`px-2.5 py-1 rounded-lg transition border text-[11px] font-medium ${
+                  requestType === item
+                    ? 'bg-amber-500 text-slate-950 font-bold border-amber-500 shadow-2xs'
+                    : 'bg-slate-100 dark:bg-slate-700/80 border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200'
+                }`}
               >
                 {item}
               </button>
@@ -240,7 +252,7 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
             placeholder="เช่น คุณอาร์ม (บางนา) หรือ คุณเก๋ (ธุรการ)"
-            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-xs sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-xs sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500"
           />
         </div>
 
@@ -312,11 +324,11 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-sm sm:text-base transition flex items-center justify-center gap-2 shadow-sm shadow-indigo-200 dark:shadow-none disabled:opacity-50 min-h-[48px]"
+            className="w-full py-3.5 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 active:scale-[0.99] text-white dark:text-slate-950 font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 min-h-[48px]"
           >
             {isSubmitting ? (
               <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/30 dark:border-slate-950/30 border-t-white dark:border-t-slate-950 rounded-full animate-spin" />
                 <span>กำลังส่งข้อมูล...</span>
               </>
             ) : (

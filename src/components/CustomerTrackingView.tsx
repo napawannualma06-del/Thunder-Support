@@ -90,8 +90,8 @@ export const CustomerTrackingView: React.FC<CustomerTrackingViewProps> = ({
 
         {/* Quick Suggestion Pills */}
         <div className="flex items-center gap-1.5 flex-wrap justify-center text-[11px] text-slate-500 dark:text-slate-400 pt-1">
-          <span>สัญญาล่าสุด:</span>
-          {['9042', '8891', '7723', '4510'].map((cNo) => (
+          <span>ตัวอย่างสัญญา:</span>
+          {['9042', '5521', '6634', '8891', '7723', '4510'].map((cNo) => (
             <button
               key={cNo}
               type="button"

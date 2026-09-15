@@ -10,6 +10,7 @@ import { CustomerTrackingView } from './components/CustomerTrackingView';
 import { AdminDashboard } from './components/AdminDashboard';
 import { IntegrationModal } from './components/IntegrationModal';
 import { AdminAuthModal } from './components/AdminAuthModal';
+import { ShareLinkModal } from './components/ShareLinkModal';
 import { StorageService } from './services/storageService';
 import { IssueTicket, IntegrationSettings } from './types';
 import { FileSpreadsheet, BellRing, ShieldCheck, CheckCircle2 } from 'lucide-react';
@@ -20,6 +21,38 @@ export default function App() {
   const [settings, setSettings] = useState<IntegrationSettings>(StorageService.getSettings());
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  
+  // จัดการธีมมืด/สว่าง
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem('app_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
+  });
+
+  useEffect(() => {
+    try {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
+      }
+      localStorage.setItem('app_theme', theme);
+    } catch (e) {
+      console.error('Failed to set theme:', e);
+    }
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
     return sessionStorage.getItem('game_pass_auth') === 'true';
   });
@@ -126,7 +159,7 @@ export default function App() {
   const inProgressCount = tickets.filter((t) => t.status === 'in_progress').length;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/80 text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-50/80 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-200">
       
       {/* Top Navigation & Mobile Bar */}
       <Navbar
@@ -137,6 +170,9 @@ export default function App() {
         pendingCount={pendingCount}
         inProgressCount={inProgressCount}
         isAdminAuthenticated={isAdminAuthenticated}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        onOpenShareModal={() => setIsShareModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -174,16 +210,16 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 mt-12 text-xs text-slate-500">
+      <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/90 py-6 mt-12 text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-700">แจ้งปัญหา (ฝ่ายเทคนิค พี่เกม)</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-200">Thunder Support (ฝ่ายเทคนิค พี่เกม)</span>
             <span>•</span>
             <span>ขับเคลื่อนด้วย Google Sheets & Google Apps Script</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1 text-slate-600">
+            <span className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300">
               <span className={`w-2 h-2 rounded-full ${dataSource === 'google_sheets' ? 'bg-emerald-500' : 'bg-blue-400'}`} />
               {dataSource === 'google_sheets' ? 'ซิงค์กับ Google Sheets เรียลไทม์' : 'โหมดบันทึก Local & Instant Sync'}
             </span>
@@ -191,13 +227,19 @@ export default function App() {
             <button
               type="button"
               onClick={() => setIsSettingsOpen(true)}
-              className="text-indigo-600 hover:underline font-medium"
+              className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
             >
               ดูคู่มือการตั้งค่าฟรี
             </button>
           </div>
         </div>
       </footer>
+
+      {/* Share Link for Employees Modal */}
+      <ShareLinkModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+      />
 
       {/* Integration Setup Modal */}
       <IntegrationModal

@@ -64,6 +64,15 @@ export class StorageService {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // ตรวจสอบและผสานตัวอย่างใหม่ (เปิด Find My Phone, กรอกเลข SN ผิด) ให้มีในเดโมเสมอ
+          const hasFindMyPhone = parsed.some((t) => t.id === 'TK-105' || t.requestType?.includes('Find My Phone'));
+          const hasWrongSN = parsed.some((t) => t.id === 'TK-106' || t.requestType?.includes('SN'));
+          if (!hasFindMyPhone || !hasWrongSN) {
+            const missing = INITIAL_SAMPLE_TICKETS.filter((initT) => !parsed.some((p) => p.id === initT.id));
+            const merged = [...parsed, ...missing];
+            this.saveLocalTickets(merged);
+            return merged;
+          }
           return parsed;
         }
       }

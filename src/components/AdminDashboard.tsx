@@ -16,7 +16,8 @@ import {
   FileSpreadsheet,
   Check,
   UserCheck,
-  Lock
+  Lock,
+  Settings
 } from 'lucide-react';
 import { 
   IssueTicket, 
@@ -178,6 +179,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           >
             <Download className="w-3.5 h-3.5" />
             <span>โหลด Excel</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={openSettings}
+            className="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center gap-1.5 transition"
+            title="ตั้งค่าเชื่อมต่อ Google Sheets & LINE Notify"
+          >
+            <Settings className="w-3.5 h-3.5 text-slate-500" />
+            <span>ตั้งค่าชีท & LINE</span>
           </button>
 
           {onLogout && (
