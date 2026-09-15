@@ -83,6 +83,15 @@ function doPost(e) {
       payload = JSON.parse(e.postData.contents);
     } else if (e.parameter) {
       payload = e.parameter;
+      if (typeof payload.ticket === "string") {
+        try { payload.ticket = JSON.parse(payload.ticket); } catch(e) {}
+      }
+      if (typeof payload.updatedData === "string") {
+        try { payload.updatedData = JSON.parse(payload.updatedData); } catch(e) {}
+      }
+      if (typeof payload.notifyLine === "string") {
+        payload.notifyLine = payload.notifyLine === "true";
+      }
     }
 
     const action = payload.action || "addTicket";

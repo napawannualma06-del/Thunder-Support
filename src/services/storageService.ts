@@ -5,24 +5,35 @@ const STORAGE_KEY_TICKETS = 'contract_issue_tickets_simple_v2';
 const STORAGE_KEY_SETTINGS = 'contract_issue_settings_simple_v2';
 
 export const DEFAULT_SETTINGS: IntegrationSettings = {
-  gasWebAppUrl: '',
-  lineNotifyToken: '',
+  gasWebAppUrl: import.meta.env.VITE_GAS_URL || '',
+  lineNotifyToken: import.meta.env.VITE_LINE_TOKEN || '',
   enableLineNotify: true,
   sheetName: 'Tickets',
-  useGoogleSheetsSync: false,
+  useGoogleSheetsSync: true,
 };
 
 export class StorageService {
   static getSettings(): IntegrationSettings {
+    let settings = { ...DEFAULT_SETTINGS };
     try {
       const stored = localStorage.getItem(STORAGE_KEY_SETTINGS);
       if (stored) {
-        return { ...DEFAULT_SETTINGS, ...JSON.parse(stored) };
+        settings = { ...settings, ...JSON.parse(stored) };
       }
     } catch (e) {
       console.error('Failed to load settings:', e);
     }
-    return DEFAULT_SETTINGS;
+    
+    // บังคับใช้ค่าจาก .env เสมอถ้ามีการตั้งค่าไว้ เพื่อให้พนักงานทุกคนได้ตั้งค่าเดียวกัน
+    if (import.meta.env.VITE_GAS_URL) {
+      settings.gasWebAppUrl = import.meta.env.VITE_GAS_URL;
+      settings.useGoogleSheetsSync = true;
+    }
+    if (import.meta.env.VITE_LINE_TOKEN) {
+      settings.lineNotifyToken = import.meta.env.VITE_LINE_TOKEN;
+    }
+    
+    return settings;
   }
 
   static saveSettings(settings: IntegrationSettings): void {
@@ -117,15 +128,16 @@ export class StorageService {
     // Sync to Google Apps Script
     if (settings.gasWebAppUrl) {
       try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'addTicket');
+        formData.append('ticket', JSON.stringify(newTicket));
+        formData.append('lineNotifyToken', settings.lineNotifyToken);
+
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'addTicket',
-            ticket: newTicket,
-            lineNotifyToken: settings.lineNotifyToken,
-          }),
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
         });
       } catch (err) {
         console.error('Error syncing to GAS:', err);
@@ -173,17 +185,18 @@ export class StorageService {
     // Sync to GAS
     if (settings.gasWebAppUrl) {
       try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'updateTicket');
+        formData.append('ticketId', ticketId);
+        formData.append('updatedData', JSON.stringify(updates));
+        formData.append('notifyLine', (notifyLine && settings.enableLineNotify).toString());
+        formData.append('lineNotifyToken', settings.lineNotifyToken);
+
         await fetch(settings.gasWebAppUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'updateTicket',
-            ticketId,
-            updatedData: updates,
-            notifyLine: notifyLine && settings.enableLineNotify,
-            lineNotifyToken: settings.lineNotifyToken,
-          }),
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
         });
       } catch (err) {
         console.error('Error updating to GAS:', err);

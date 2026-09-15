@@ -92,14 +92,15 @@ export const IntegrationModal: React.FC<IntegrationModalProps> = ({
     // หากมี gasUrl ให้ส่งผ่าน gasUrl หรือแจ้งสำเร็จ
     if (gasUrl.trim()) {
       try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'testLine');
+        formData.append('lineNotifyToken', lineToken.trim());
+
         await fetch(gasUrl.trim(), {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'testLine',
-            lineNotifyToken: lineToken.trim(),
-          }),
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
         });
         setTestLineStatus('success');
         setTestLineMessage('ส่งข้อความทดสอบไปยังกลุ่ม LINE เรียบร้อยแล้ว กรุณาตรวจสอบในแอพ LINE');
