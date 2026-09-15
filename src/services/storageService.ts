@@ -63,24 +63,26 @@ export class StorageService {
       const stored = localStorage.getItem(STORAGE_KEY_TICKETS);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          // ตรวจสอบและผสานตัวอย่างใหม่ (เปิด Find My Phone, กรอกเลข SN ผิด) ให้มีในเดโมเสมอ
-          const hasFindMyPhone = parsed.some((t) => t.id === 'TK-105' || t.requestType?.includes('Find My Phone'));
-          const hasWrongSN = parsed.some((t) => t.id === 'TK-106' || t.requestType?.includes('SN'));
-          if (!hasFindMyPhone || !hasWrongSN) {
-            const missing = INITIAL_SAMPLE_TICKETS.filter((initT) => !parsed.some((p) => p.id === initT.id));
-            const merged = [...parsed, ...missing];
-            this.saveLocalTickets(merged);
-            return merged;
+        if (Array.isArray(parsed)) {
+          // หากใน storage เคยบันทึกตัวอย่างไว้ (TK-101 ถึง TK-106) ให้กรองออก เพื่อความสะอาด
+          const userOnly = parsed.filter(
+            (t) => !['TK-101', 'TK-102', 'TK-103', 'TK-104', 'TK-105', 'TK-106'].includes(t.id)
+          );
+          if (userOnly.length !== parsed.length) {
+            this.saveLocalTickets(userOnly);
           }
-          return parsed;
+          return userOnly;
         }
       }
     } catch (e) {
       console.error('Failed to parse local tickets:', e);
     }
-    this.saveLocalTickets(INITIAL_SAMPLE_TICKETS);
-    return INITIAL_SAMPLE_TICKETS;
+    this.saveLocalTickets([]);
+    return [];
+  }
+
+  static clearAllTickets(): void {
+    this.saveLocalTickets([]);
   }
 
   static saveLocalTickets(tickets: IssueTicket[]): void {

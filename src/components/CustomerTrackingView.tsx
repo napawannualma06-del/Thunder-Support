@@ -64,14 +64,14 @@ export const CustomerTrackingView: React.FC<CustomerTrackingViewProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="พิมพ์เลขสัญญา เช่น 9042"
-              className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-sm font-medium text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500"
+              placeholder="พิมพ์เลขสัญญาเพื่อค้นหา"
+              className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-base sm:text-sm font-medium text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 px-2 py-1"
               >
                 ล้าง
               </button>
@@ -86,21 +86,6 @@ export const CustomerTrackingView: React.FC<CustomerTrackingViewProps> = ({
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-indigo-600 dark:text-indigo-400' : ''}`} />
           </button>
-        </div>
-
-        {/* Quick Suggestion Pills */}
-        <div className="flex items-center gap-1.5 flex-wrap justify-center text-[11px] text-slate-500 dark:text-slate-400 pt-1">
-          <span>ตัวอย่างสัญญา:</span>
-          {['9042', '5521', '6634', '8891', '7723', '4510'].map((cNo) => (
-            <button
-              key={cNo}
-              type="button"
-              onClick={() => setSearchQuery(cNo)}
-              className="px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-mono font-medium transition"
-            >
-              {cNo}
-            </button>
-          ))}
         </div>
       </div>
 

@@ -94,7 +94,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="กรอกรหัสผ่านของคุณ"
-                className="w-full pl-9 pr-10 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl text-sm font-mono tracking-wider text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-950 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+                className="w-full pl-9 pr-10 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl text-base font-mono tracking-wider text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-950 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
               />
               <button
                 type="button"

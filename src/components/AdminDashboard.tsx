@@ -32,6 +32,7 @@ interface AdminDashboardProps {
   settings: IntegrationSettings;
   onUpdateTicket: (ticketId: string, updates: Partial<IssueTicket>, adminName: string, notifyLine: boolean) => Promise<IssueTicket | null>;
   onDeleteTicket: (ticketId: string) => void;
+  onClearAll?: () => void;
   onExportCSV: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
@@ -44,6 +45,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   settings,
   onUpdateTicket,
   onDeleteTicket,
+  onClearAll,
   onExportCSV,
   onRefresh,
   isRefreshing,
@@ -190,6 +192,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <Settings className="w-3.5 h-3.5 text-slate-500" />
             <span>ตั้งค่าชีท & LINE</span>
           </button>
+
+          {onClearAll && tickets.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm('คุณต้องการลบรายการแจ้งงานทั้งหมดหรือไม่? (รายการจะถูกลบเกลี้ยง)')) {
+                  onClearAll();
+                }
+              }}
+              className="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 text-slate-600 dark:text-slate-400 flex items-center gap-1.5 transition"
+              title="ล้างรายการงานทั้งหมด"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>ล้างทั้งหมด</span>
+            </button>
+          )}
 
           {onLogout && (
             <button

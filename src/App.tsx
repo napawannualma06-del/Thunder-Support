@@ -142,6 +142,12 @@ export default function App() {
     }
   };
 
+  // ลบทุกรายการทั้งหมด (เคลียร์ข้อมูล)
+  const handleClearAllTickets = () => {
+    StorageService.clearAllTickets();
+    setTickets([]);
+  };
+
   // ส่งออก CSV
   const handleExportCSV = () => {
     StorageService.exportToCSV(tickets);
@@ -200,6 +206,7 @@ export default function App() {
             settings={settings}
             onUpdateTicket={handleUpdateTicket}
             onDeleteTicket={handleDeleteTicket}
+            onClearAll={handleClearAllTickets}
             onExportCSV={handleExportCSV}
             onRefresh={loadData}
             isRefreshing={isRefreshing}
@@ -223,14 +230,18 @@ export default function App() {
               <span className={`w-2 h-2 rounded-full ${dataSource === 'google_sheets' ? 'bg-emerald-500' : 'bg-blue-400'}`} />
               {dataSource === 'google_sheets' ? 'ซิงค์กับ Google Sheets เรียลไทม์' : 'โหมดบันทึก Local & Instant Sync'}
             </span>
-            <span>•</span>
-            <button
-              type="button"
-              onClick={() => setIsSettingsOpen(true)}
-              className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
-            >
-              ดูคู่มือการตั้งค่าฟรี
-            </button>
+            {isAdminAuthenticated && (
+              <>
+                <span>•</span>
+                <button
+                  type="button"
+                  onClick={() => setIsSettingsOpen(true)}
+                  className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+                >
+                  คู่มือตั้งค่า
+                </button>
+              </>
+            )}
           </div>
         </div>
       </footer>

@@ -184,9 +184,8 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
         
         {/* 1. เลขที่สัญญา (เด่น ชัด กรอกง่าย) */}
         <div>
-          <label htmlFor="contractNo" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5 flex items-center justify-between">
+          <label htmlFor="contractNo" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5">
             <span>เลขที่สัญญา (Contract No.) <span className="text-rose-500">*</span></span>
-            <span className="text-[11px] text-slate-400 dark:text-slate-500 font-normal">เช่น 9042, 5521 หรือ 6634</span>
           </label>
           <input
             id="contractNo"
@@ -195,16 +194,15 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             autoFocus
             value={contractNo}
             onChange={(e) => setContractNo(e.target.value)}
-            placeholder="พิมพ์เลขสัญญา เช่น 9042"
-            className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono text-lg font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal placeholder:text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition uppercase tracking-wider"
+            placeholder="พิมพ์เลขสัญญา"
+            className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono text-base sm:text-lg font-bold placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal placeholder:text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition uppercase tracking-wider"
           />
         </div>
 
-        {/* 2. สิ่งที่ต้องการให้ทำ (แบบกรอก พร้อมตัวอย่าง ปิดพร็อกซี่, เปิด Find My Phone, กรอกเลข SN ผิด) */}
+        {/* 2. สิ่งที่ต้องการให้ทำ */}
         <div>
-          <label htmlFor="requestType" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5 flex items-center justify-between">
+          <label htmlFor="requestType" className="block text-xs font-bold text-slate-900 dark:text-slate-100 mb-1.5">
             <span>สิ่งที่ต้องการให้ทำ <span className="text-rose-500">*</span></span>
-            <span className="text-[11px] text-amber-600 dark:text-amber-400 font-normal">เลือกหรือพิมพ์เองได้</span>
           </label>
           <input
             id="requestType"
@@ -212,35 +210,12 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             required
             value={requestType}
             onChange={(e) => setRequestType(e.target.value)}
-            placeholder="เช่น ปิดพร็อกซี่, เปิด Find My Phone"
-            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white text-sm font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+            placeholder="พิมพ์สิ่งที่ต้องการให้ทำ เช่น ปิดพร็อกซี่"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white text-base sm:text-sm font-semibold placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
           />
-          <div className="flex items-center gap-1.5 mt-2 flex-wrap text-[11px] text-slate-500 dark:text-slate-400">
-            <span>ตัวอย่าง:</span>
-            {[
-              'ปิดพร็อกซี่',
-              'เปิด Find My Phone',
-              'กรอกเลข SN ผิด',
-              'เปิด Proxy',
-              'ปลดล็อค / รีเซ็ตสิทธิ์'
-            ].map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setRequestType(item)}
-                className={`px-2.5 py-1 rounded-lg transition border text-[11px] font-medium ${
-                  requestType === item
-                    ? 'bg-amber-500 text-slate-950 font-bold border-amber-500 shadow-2xs'
-                    : 'bg-slate-100 dark:bg-slate-700/80 border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* 3. ผู้แจ้ง (นำเบอร์โทรออกตามคำขอ) */}
+        {/* 3. ผู้แจ้ง */}
         <div>
           <label htmlFor="customerName" className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
             ชื่อผู้แจ้ง / แผนก <span className="text-rose-500">*</span>
@@ -251,8 +226,8 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
             required
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
-            placeholder="เช่น คุณอาร์ม (บางนา) หรือ คุณเก๋ (ธุรการ)"
-            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-xs sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500"
+            placeholder="พิมพ์ชื่อผู้แจ้ง หรือชื่อแผนก"
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-base sm:text-sm text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-amber-500"
           />
         </div>
 
@@ -278,8 +253,8 @@ export const CustomerReportForm: React.FC<CustomerReportFormProps> = ({
                   rows={2}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="เช่น เครื่องต่อเน็ตแล้วเข้าโปรแกรมไม่ได้ ขึ้นหน้าต่างหมุนค้าง..."
-                  className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                  placeholder="พิมพ์รายละเอียดเพิ่มเติม (ถ้ามี)"
+                  className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base sm:text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 

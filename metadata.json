@@ -2,5 +2,7 @@
   "name": "Thunder Support",
   "description": "ระบบแจ้งปัญหาตามเลขสัญญา ปิด Proxy, เปิด Find My Phone, แก้ไขเลข SN ฝ่ายเทคนิค (พี่เกม) ซิงค์ Google Sheets & LINE Notify",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
